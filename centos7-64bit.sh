@@ -100,23 +100,23 @@ yum erase dhcp openldap-servers openldap-clients bind vsftpd httpd dovecot samba
 #############
 ## Fix NTP ##
 #############
-yum install ntp -y
-cat > /etc/ntp.conf <<-EOF
-driftfile /var/lib/ntp/drift
-restrict default kod nomodify notrap nopeer noquery
-restrict -6 default kod nomodify notrap nopeer noquery
-restrict 127.0.0.1
-restrict ::1
-server 0.centos.pool.ntp.org iburst
-server 1.centos.pool.ntp.org iburst
-server 2.centos.pool.ntp.org iburst
-server 3.centos.pool.ntp.org iburst
-includefile /etc/ntp/crypto/pw
-keys /etc/ntp/keys
-disable monitor
-EOF
+#yum install ntp -y
+#cat > /etc/ntp.conf <<-EOF
+#driftfile /var/lib/ntp/drift
+#restrict default kod nomodify notrap nopeer noquery
+#restrict -6 default kod nomodify notrap nopeer noquery
+#restrict 127.0.0.1
+#restrict ::1
+#server 0.centos.pool.ntp.org iburst
+#server 1.centos.pool.ntp.org iburst
+#server 2.centos.pool.ntp.org iburst
+#server 3.centos.pool.ntp.org iburst
+#includefile /etc/ntp/crypto/pw
+#keys /etc/ntp/keys
+#disable monitor
+#EOF
 
-echo "OPTIONS=\"-u ntp:ntp\"" >> /etc/sysconfig/ntpd
+#echo "OPTIONS=\"-u ntp:ntp\"" >> /etc/sysconfig/ntpd
 
 systemctl start ntpd
 systemctl enable ntpd
@@ -177,15 +177,16 @@ net.ipv6.conf.default.accept_redirects=0" >> /etc/sysctl.conf
 yum install tcp_wrappers -y
 
 #############################
-## Create /etc/hosts.allow ##
+## Create /etc/hosts.
+##
 #############################
-echo "ALL: 10.1.1.0/255.255.255.0" >> /etc/hosts.allow
+#echo "ALL: 10.1.1.0/255.255.255.0" >> /etc/hosts.allow
 chmod 644 /etc/hosts.allow
 
 ############################
 ## Create /etc/hosts.deny ##
 ############################
-echo "ALL: ALL" >> /etc/hosts.deny
+#echo "ALL: ALL" >> /etc/hosts.deny
 chmod 644 /etc/hosts.deny
 
 ########################################
@@ -233,7 +234,7 @@ cron.* /var/log/cron
 *.emerg :omusrmsg:*
 uucp,news.crit /var/log/spooler
 local7.* /var/log/boot.log
-*.* @@10.1.1.122:514
+#*.* @@10.1.1.122:514
 EOF
 
 touch /var/log/kern.log
